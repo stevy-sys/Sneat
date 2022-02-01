@@ -47,4 +47,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class,'user_id');
     }
+
+    public function profil()
+    {
+        return $this->hasOne(Profil::class,'user_id');
+    }
+
+    public function groups()
+    {
+        return $this->hasMany(MembreGroup::class,'user_id');
+    }
 }
