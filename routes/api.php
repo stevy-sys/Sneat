@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\api\AppController;
 use App\Http\Controllers\api\authController;
 use App\Http\Controllers\api\ChatController;
+use App\Http\Controllers\api\FriendsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +58,14 @@ Route::middleware('auth:user')->group(function() {
 
 
     //reactions
+
+
+
+
+    //invitaiton
+    Route::post('/invitation/invit-amis',[FriendsController::class, 'inviteUser']);
+    Route::post('/invitation/accept',[FriendsController::class, 'accepteAmis']);
+
 });
 
 Route::middleware('auth:admin')->group(function() {

@@ -57,4 +57,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(MembreGroup::class,'user_id');
     }
+
+    public function myInvitation()
+    {
+        $this->hasMany(Invitation::class,'inviteur');
+    }
+
+    public function whoInvitMe()
+    {
+        $this->hasMany(Invitation::class,'invite');
+    }
+
+    public function invitation()
+    {
+       return $this->morphMany(Invitation::class,'invitable');
+    }
 }
