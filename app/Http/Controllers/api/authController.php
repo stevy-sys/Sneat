@@ -15,7 +15,7 @@ class authController extends Controller
     public function login(Request $request)
     {
         $validation = $this->validation($request,'login');
-        if($validation['warning']) {
+        if(!$validation['status']) {
             return response()->json($validation['warning'],401);
         }
 
@@ -37,7 +37,7 @@ class authController extends Controller
     public function register(Request $request)
     {
         $validation = $this->validation($request,'login');
-        if($validation['warning']) {
+        if(!$validation['status']) {
             return response()->json($validation['warning'],401);
         }
 
@@ -73,7 +73,7 @@ class authController extends Controller
             if ($validation->fails()) {
                 return $validation->errors();
             }else{
-                return ['message' => 'ok'];
+                return ['status' => 'ok'];
             }
         }else{
             $rules = [
@@ -85,7 +85,7 @@ class authController extends Controller
             if ($validation->fails()) {
                 return ['warning' => $validation->errors()];
             }else{
-                return ['statu' => 'ok'];
+                return ['status' => 'ok'];
             }
         }
     }

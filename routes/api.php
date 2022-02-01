@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AdminAuthController;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\api\AppController;
 use App\Http\Controllers\api\authController;
+use App\Http\Controllers\api\ChatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,26 @@ Route::any('/unauth',function(){
 
 Route::middleware('auth:user')->group(function() {
     Route::get('/user',[AppController::class, 'profile']);
+
+
+    //chat
+    Route::get('/chat/allConversation',[ChatController::class, 'allConversation']);
+    Route::get('/chat/allDiscussion/{conversation}',[ChatController::class, 'allDiscussion']);
+    Route::post('/chat/sendMessage/',[ChatController::class, 'sendMessage']);
+    Route::post('/chat/create-conversation',[ChatController::class, 'createConversation']);
+
+
+    //publication
+
+
+
+
+    //commentaire
+
+
+
+
+    //reactions
 });
 
 Route::middleware('auth:admin')->group(function() {
