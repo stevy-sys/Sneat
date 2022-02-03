@@ -43,6 +43,7 @@ Route::middleware('auth:user')->group(function() {
     //chat
     Route::get('/chat/allConversation',[ChatController::class, 'allConversation']);
     Route::get('/chat/allDiscussion/{conversation}',[ChatController::class, 'allDiscussion']);
+    Route::get('/chat/verifiConvExist/{user}',[ChatController::class, 'verification']);
     Route::post('/chat/sendMessage/',[ChatController::class, 'sendMessage']);
     Route::post('/chat/create-conversation',[ChatController::class, 'createConversation']);
 

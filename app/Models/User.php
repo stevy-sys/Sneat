@@ -72,4 +72,9 @@ class User extends Authenticatable
     {
        return $this->morphMany(Invitation::class,'invitable');
     }
+
+    public function membreConversation()
+    {
+        return $this->hasMany(MembreConversation::class,'user_id');
+    }
 }

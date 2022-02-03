@@ -5,8 +5,12 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\Message;
+use App\Models\MembreConversation;
+
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
@@ -54,10 +58,28 @@ class ChatController extends Controller
         
     }
 
+    public function verification(User $user)
+    {
+        try {
+            $idConversation = null;
+            $lists = MembreConversation::with(['conversation.membres' => function($q) use ($user){
+                $q->where('user_id',$user->id);
+            }])->where('user_id',Auth::id())->get()->pluck('conversation.membres');
+
+            foreach ($lists as $list) {
+                if (count($list) > 0) {
+                    $idConversation = $list[0]->conversation_id ;
+                }
+            }
+            return ['conversation_id'=>$idConversation];       
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
+    }
+
     public function sendMessage(Request $request)
     {
         try {
-
             $message = Auth::user()->Messages()->create([
                 'conversation_id' => $request->conversation_id,
                 'message' => $request->messages
