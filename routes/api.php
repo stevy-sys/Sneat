@@ -6,6 +6,7 @@ use App\Http\Controllers\api\AppController;
 use App\Http\Controllers\api\authController;
 use App\Http\Controllers\api\ChatController;
 use App\Http\Controllers\api\FriendsController;
+use App\Http\Controllers\api\GroupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +51,10 @@ Route::middleware('auth:user')->group(function() {
 
     //publication
 
+
+    //groupe
+    Route::post('/group/create',[GroupController::class, 'creategroupe']);
+    Route::get('/group/membres/{group_id}',[GroupController::class, 'getMembreGroup']);
 
 
 
