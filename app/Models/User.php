@@ -58,6 +58,7 @@ class User extends Authenticatable
         return $this->hasMany(MembreGroup::class,'user_id');
     }
 
+
     public function myInvitation()
     {
         $this->hasMany(Invitation::class,'inviteur');
@@ -68,13 +69,18 @@ class User extends Authenticatable
         $this->hasMany(Invitation::class,'invite');
     }
 
-    public function invitation()
+    public function invitations()
     {
        return $this->morphMany(Invitation::class,'invitable');
     }
 
-    public function membreConversation()
+    public function membreConversations()
     {
         return $this->hasMany(MembreConversation::class,'user_id');
+    }
+
+    public function publications()
+    {
+        return $this->hasMany(Publication::class,'user_id');
     }
 }
