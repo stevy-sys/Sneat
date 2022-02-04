@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Invitation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvitationController extends Controller
 {
@@ -11,7 +13,7 @@ class InvitationController extends Controller
     {
         try {
 
-            $invitation = Auth::user()->invitation()->where('status',0)->get();
+            $invitation = Auth::user()->invitations()->where('status',0)->get();
             return response()->json([
                 'conversation' => $invitation
             ],201);
@@ -23,7 +25,7 @@ class InvitationController extends Controller
     public function getAllMyInvitation()
     {
         try {
-            $invitation = Auth::user()->invitation()->where('inviteur',Auth::id())->where('status',0)->get();
+            $invitation = Auth::user()->invitations()->where('inviteur',Auth::id())->where('status',0)->get();
             return response()->json([
                 'conversation' => $invitation
             ],201);
@@ -49,7 +51,7 @@ class InvitationController extends Controller
     {
         try {
 
-            $invit = Auth::user()->invitation()->create([
+            $invit = Auth::user()->invitations()->create([
                 'invite' => Auth::id(),
                 'status' => 0,
                 'invite' => $request->id_destinateur,
