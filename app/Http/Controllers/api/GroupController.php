@@ -27,7 +27,7 @@ class GroupController extends Controller
 
     public function getMembreGroup($group_id)
     {
-       return response()->json([
+        return response()->json([
             'conversation' => MembreGroup::with('user')->where('groupe_id',$group_id)->get()->pluck('user')
         ],201);
     }
