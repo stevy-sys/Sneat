@@ -15,9 +15,22 @@ class FriendsController extends Controller
     public function getAllFriends()
     {
         try {
-            $allId = Friends::where('user_id',Auth::id())->get();
+            $user = Friends::with('user')->where('user_id',Auth::id())->get()->pluck('user');
             return response()->json([
-                'conversation' => $allId
+                'friends' => $user
+            ],201);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
+    }
+
+    public function retirer($user_id)
+    {
+        try {
+            Friends::where('user_id',Auth::id())->where('friend_id',$user_id)->delete();
+            Friends::where('user_id',$user_id)->where('friend_id',Auth::id())->delete();
+            return response()->json([
+                'message' => 'friends retirer'
             ],201);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
