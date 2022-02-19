@@ -9,6 +9,9 @@ class MembreConversation extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
+
     public function conversation()
     {
         return $this->belongsTo(Conversation::class);
