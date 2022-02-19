@@ -9,6 +9,8 @@ class Conversation extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function membres()
     {
         return $this->hasMany(MembreConversation::class,'conversation_id');
