@@ -25,7 +25,8 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // }); 
 
-// test de git
+// test de git 2
+
 Route::post('login',[authController::class,'login']);
 Route::post('register',[authController::class,'register']);
 
