@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Invitation;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class InvitationController extends Controller
 {
+    protected $auth ;
+    public function __construct() {
+
+        $this->auth = User::find(Auth::id());
+    }
+
     public function getAllMyDemandeNoAccept()
     {
         try {
 
-            $invitation = Auth::user()->invitations()->where('status',0)->get();
+            $invitation = $this->auth->invitations()->where('status',0)->get();
             return response()->json([
                 'conversation' => $invitation
             ],201);
@@ -25,7 +32,7 @@ class InvitationController extends Controller
     public function getAllMyInvitation()
     {
         try {
-            $invitation = Auth::user()->invitations()->where('inviteur',Auth::id())->where('status',0)->get();
+            $invitation = $this->auth->invitations()->where('inviteur',Auth::id())->where('status',0)->get();
             return response()->json([
                 'conversation' => $invitation
             ],201);
@@ -34,7 +41,7 @@ class InvitationController extends Controller
         }
     }
 
-    public function accepteAmis(Request $request)
+    public function accepteEnAmis(Request $request)
     {
         try {
             $invitation = Invitation::find($request->id_invitation);
@@ -47,12 +54,12 @@ class InvitationController extends Controller
         }
     }
 
-    public function inviteUser(Request $request)
+    public function inviteUserEnAmis(Request $request)
     {
         try {
 
-            $invit = Auth::user()->invitations()->create([
-                'invite' => Auth::id(),
+            $invit = $this->auth->invitations()->create([
+                'inviteur' => Auth::id(),
                 'status' => 0,
                 'invite' => $request->id_destinateur,
             ]);
