@@ -83,4 +83,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Publication::class,'user_id');
     }
+
+    public function friends()
+    {
+        return $this->hasMany(Friends::class,'friend_id');
+    }
+
+    public function publicationStatus()
+    {
+        return $this->morphMany(Publication::class,'publicable');
+    }
 }
