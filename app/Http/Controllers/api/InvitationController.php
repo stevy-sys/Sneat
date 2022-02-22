@@ -20,9 +20,9 @@ class InvitationController extends Controller
     {
         try {
 
-            $invitation = $this->auth->invitations()->where('status',0)->get();
+            $invitation = $this->auth->invitations()->where('invite',Auth::id())->where('status',0)->get();
             return response()->json([
-                'conversation' => $invitation
+                'invitation' => $invitation
             ],201);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
@@ -34,7 +34,7 @@ class InvitationController extends Controller
         try {
             $invitation = $this->auth->invitations()->where('inviteur',Auth::id())->where('status',0)->get();
             return response()->json([
-                'conversation' => $invitation
+                'data' => $invitation
             ],201);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
@@ -47,7 +47,7 @@ class InvitationController extends Controller
             $invitation = Invitation::find($request->id_invitation);
             $invitation->update(['status' => 1]);
             return response()->json([
-                'conversation' => $invitation
+                'invitation' => $invitation
             ],201);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
@@ -65,7 +65,7 @@ class InvitationController extends Controller
             ]);
 
             return response()->json([
-                'conversation' => $invit
+                'invitation' => $invit
             ],201);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
