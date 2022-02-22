@@ -9,8 +9,13 @@ class Friends extends Model
 {
     use HasFactory;
 
-    public function user()
+    public function user_friend()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'friend_id');
+    }
+
+    public function me()
+    {
+        return $this->belongsTo(User::class,'user_id');
     }
 }
