@@ -15,7 +15,7 @@ class FriendsController extends Controller
     public function getAllFriends()
     {
         try {
-            $user = Friends::with('user')->where('user_id',Auth::id())->get()->pluck('user');
+            $user = Friends::with('user_friend')->where('user_id',Auth::id())->get();
             return response()->json([
                 'friends' => $user
             ],201);
