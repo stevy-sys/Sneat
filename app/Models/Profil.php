@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Profil extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
     public function user()
     {
@@ -16,6 +17,6 @@ class Profil extends Model
 
     public function media()
     {
-        return $this->morphMany(media::class,'mediable');
+        return $this->morphMany(Media::class,'mediable');
     }
 }
