@@ -19,7 +19,7 @@ class UserController extends Controller
     public function myProfile()
     {
         try {
-            $profil = $this->auth->load('profile.media');
+            $profil = $this->auth->load('profil.media');
             return response()->json([
                 'conversation' => $profil
             ],201);
@@ -33,18 +33,19 @@ class UserController extends Controller
     {
         try {
             $data = $request->all();
-            $this->auth->profile()->createOrUpdate($data);
+            $user = User::find(Auth::id());
+            $user->profil->update($data);
             return response()->json([
-                'conversation' => $this->auth->profile
+                'profil' => $user->profil
             ],201);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
         }
     }
 
-    public function otherProfil(Request $request)
+    public function otherProfil(User $user)
     {
-        $user = User::find($request->id_user);
+        $user = $user->load('profil.media');
         return response()->json([
             'user' => $user
         ],201);
