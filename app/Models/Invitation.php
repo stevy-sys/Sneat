@@ -8,14 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Invitation extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
-    public function user()
+    public function inviteur()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'inviteur');
     }
 
     public function invitable()
     {
         return $this->morphTo();
+    }
+
+    public function invite()
+    {
+        return $this->belongsTo(User::class,'invite');
     }
 }
