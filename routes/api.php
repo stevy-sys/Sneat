@@ -44,7 +44,7 @@ Route::any('/unauth',function(){
 
 Route::middleware('auth:user')->group(function() {
     Route::get('/user',[UserController::class, 'myProfile']);
-    Route::get('/otherProfil',[UserController::class, 'otherProfil']);
+    Route::get('/otherProfil/{user}',[UserController::class, 'otherProfil']);
     Route::post('/user/complete-profil',[UserController::class, 'completeProfile']);
 
 
@@ -84,7 +84,7 @@ Route::middleware('auth:user')->group(function() {
     Route::post('/invitation/invit-amis',[InvitationController::class, 'inviteUserEnAmis']); //inviter une user en amis
     Route::post('/invitation/accept',[InvitationController::class, 'accepteEnAmis']); //accetpe une invitation en amis
     Route::get('/invitation/all-invitation-no',[InvitationController::class, 'getAllMyInvitation']); //tout les invitations que jai envoyer mais pas encore accepter
-    Route::get('/invitation/all-invitation-yes',[InvitationController::class, 'getAllMyInvitation']); //tout les invitation que je recois mes pas encore accepter
+    Route::get('/invitation/all-invitation-yes',[InvitationController::class, 'getAllMyDemandeNoAccept']); //tout les invitation que je recois mes pas encore accepter
 
 
 
