@@ -49,9 +49,9 @@ class PublicationController extends Controller
 
     public function viewStatut($id_publication)
     {
-        $publication = Publication::find($id_publication);
+        $publication = Publication::with(['user','commentaires.user'])->where('id',$id_publication)->first();
         return response()->json([
-            'message' => $publication
+            'data' => $publication
         ],201);
     }
 }
