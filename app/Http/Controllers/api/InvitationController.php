@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Models\User;
+use App\Models\Friends;
 use App\Models\Invitation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,7 @@ class InvitationController extends Controller
     {
         try {
 
-            $invitation = $this->auth->invitations()->where('invite',Auth::id())->where('status',0)->get();
+            $invitation = Invitation::with('inviteur')->where('invitable_type','App\Models\User')->where('invite',Auth::id())->where('status',0)->get();
             return response()->json([
                 'invitation' => $invitation
             ],201);
@@ -32,7 +33,7 @@ class InvitationController extends Controller
     public function getAllMyInvitation()
     {
         try {
-            $invitation = $this->auth->invitations()->where('inviteur',Auth::id())->where('status',0)->get();
+            $invitation = Invitation::with('invite')->where('invitable_type','App\Models\User')->where('inviteur',Auth::id())->where('status',0)->get();
             return response()->json([
                 'data' => $invitation
             ],201);
@@ -46,6 +47,14 @@ class InvitationController extends Controller
         try {
             $invitation = Invitation::find($request->id_invitation);
             $invitation->update(['status' => 1]);
+            Friends::create([
+                'friend_id'=>$request->friend_id,
+                'user_id' => Auth::id()
+            ]);
+            Friends::create([
+                'friend_id'=>Auth::id(),
+                'user_id'=>$request->friend_id
+            ]);
             return response()->json([
                 'invitation' => $invitation
             ],201);
