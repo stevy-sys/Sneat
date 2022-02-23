@@ -73,7 +73,7 @@ class ChatController extends Controller
         try {
             $allConversation = Conversation::whereHas('membres',function($query){
                 $query->where('user_id',Auth::id());
-            })->with('latestMessage')->get();
+            })->with(['latestMessage','whoDiscuss'])->get();
             return response()->json([
                 'conversation' => $allConversation
             ],201);

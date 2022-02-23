@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Conversation extends Model
 {
@@ -23,6 +24,12 @@ class Conversation extends Model
 
     public function latestMessage()
     {
-        return $this->hasOne(Message::class,'conversation_id')->latest();
+        return $this->hasOne(Message::class,'conversation_id')->latest()->with('user');
+    }
+
+    public function whoDiscuss()
+    {
+        $membre = $this->hasOne(MembreConversation::class,'conversation_id') ;
+        return $membre->with('user')->where('user_id','<>',Auth::id());
     }
 }
