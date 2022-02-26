@@ -93,4 +93,9 @@ class User extends Authenticatable
     {
         return $this->morphMany(Publication::class,'publicable');
     }
+
+    public function media()
+    {
+        return $this->morphMany(Media::class,'mediable');
+    }
 }

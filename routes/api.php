@@ -8,6 +8,7 @@ use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\GroupController;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\api\FriendsController;
+use App\Http\Controllers\api\ActualiteController;
 use App\Http\Controllers\api\InvitationController;
 use App\Http\Controllers\admin\AdminAuthController;
 use App\Http\Controllers\api\CommentaireController;
@@ -46,6 +47,9 @@ Route::middleware('auth:user')->group(function() {
     Route::get('/user',[UserController::class, 'myProfile']);
     Route::get('/otherProfil/{user}',[UserController::class, 'otherProfil']);
     Route::post('/user/complete-profil',[UserController::class, 'completeProfile']);
+
+    // actualite
+    Route::get('/actualite',[ActualiteController::class, 'getActualite']);
 
 
     //chat

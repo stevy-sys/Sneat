@@ -23,6 +23,7 @@ class PublicationController extends Controller
             'user_id' => Auth::id(),
             'description' => $request->description
         ]);
+        $publication->actualites()->create();
         return response()->json([
             'data' => $publication
         ],201);

@@ -17,11 +17,16 @@ class Publication extends Model
 
     public function media()
     {
-        return $this->morphMany(media::class,'mediable');
+        return $this->morphMany(Media::class,'mediable');
     }
 
     public function commentaires()
     {
         return $this->morphMany(Commentaire::class,'commentable');
+    }
+
+    public function actualites()
+    {
+        return $this->morphMany(Actualites::class,'actualable');
     }
 }

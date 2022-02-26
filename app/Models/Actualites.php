@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Actualites extends Model
 {
     use HasFactory;
+
+    public function actualable()
+    {
+        return $this->morphTo();
+    }
 }
