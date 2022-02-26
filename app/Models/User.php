@@ -43,6 +43,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['activeProfil'];
+
     public function Messages()
     {
         return $this->hasMany(Message::class,'user_id');
@@ -97,5 +99,10 @@ class User extends Authenticatable
     public function media()
     {
         return $this->morphMany(Media::class,'mediable');
+    }
+
+    public function getActiveProfilAttribute()
+    {
+        return $this->media()->where('active',true)->first();
     }
 }
