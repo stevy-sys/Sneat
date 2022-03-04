@@ -43,7 +43,7 @@ class PublicationController extends Controller
     {
         Publication::find($id_publication)->delete();
         return response()->json([
-            'message' => 'publication delete'
+            'data' => 'publication delete'
         ],201);
     }
 
@@ -54,7 +54,7 @@ class PublicationController extends Controller
             'description' => $request->description
         ]);
         return response()->json([
-            'message' => 'publication delete'
+            'data' => 'publication delete'
         ],201);
     }
 
