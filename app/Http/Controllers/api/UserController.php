@@ -49,9 +49,7 @@ class UserController extends Controller
 
             if ($request->photo_profil) {
                 $media = $this->decodebase64($request);
-                // $file = $this->media($media);
                 $exist = $user->media()->first();
-
                 $user->media()->create([
                     'file' => $media['path'],
                     'type' => $media['type'],
