@@ -38,7 +38,7 @@ class GroupController extends Controller
     public function getMembreGroup($group_id)
     {
         return response()->json([
-            'membre' => MembreGroup::with('user')->where('groupe_id',$group_id)->get()->pluck('user')
+            'membre' => MembreGroup::with(['user','role'])->where('group_id',$group_id)->get()
         ],201);
     }
 
