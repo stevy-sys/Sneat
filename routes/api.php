@@ -88,7 +88,7 @@ Route::middleware('auth:user')->group(function() {
     Route::post('/invitation/invit-amis',[InvitationController::class, 'inviteUserEnAmis']); //inviter une user en amis
     Route::post('/invitation/accept',[InvitationController::class, 'accepteEnAmis']); //accetpe une invitation en amis
     Route::get('/invitation/all-invitation-no',[InvitationController::class, 'getAllMyInvitation']); //tout les invitations que jai envoyer mais pas encore accepter
-    Route::get('/invitation/all-invitation-yes',[InvitationController::class, 'getAllMyDemandeNoAccept']); //tout les invitation que je recois mes pas encore accepter
+    Route::get('/invitation/all-invitation-yes',[InvitationController::class, 'getAllMyDemandeNoAccept']); //tout les invitation que je recois mes jai pas encore accepter
 
 
 
