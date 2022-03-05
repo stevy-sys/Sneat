@@ -24,4 +24,9 @@ class Group extends Model
     {
         return $this->morphMany(Invitation::class,'invitable');
     }
+
+    public function publicable()
+    {
+        return $this->morphMany(Publication::class,'publicable');
+    }
 }

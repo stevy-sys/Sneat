@@ -29,4 +29,9 @@ class Publication extends Model
     {
         return $this->morphMany(Actualites::class,'actualable');
     }
+
+    public function publicable()
+    {
+        return $this->morphTo();
+    }
 }

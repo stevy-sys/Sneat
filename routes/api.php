@@ -13,6 +13,7 @@ use App\Http\Controllers\api\InvitationController;
 use App\Http\Controllers\admin\AdminAuthController;
 use App\Http\Controllers\api\CommentaireController;
 use App\Http\Controllers\api\PublicationController;
+use App\Models\Publication;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +72,10 @@ Route::middleware('auth:user')->group(function() {
     Route::post('/group/create',[GroupController::class, 'creategroupe']); //creer une groupe
     Route::get('/group/membres/{group_id}',[GroupController::class, 'getMembreGroup']); //tout les user membres groupe
     Route::get('/group',[GroupController::class, 'groupe']); //affiche mes groupe
+    Route::post('/invitation/joinGroup',[InvitationController::class, 'joinGroup']); //rejoindre groupe
+    Route::post('/invitation/accepteJoinGroup',[InvitationController::class, 'accepteJoinGroup']); //accepte user in groupe
+    Route::post('/invitation/all-demande-groupe',[InvitationController::class, 'allDemandeGroup']);
+    Route::post('/group/publiez',[PublicationController::class, 'publiezInGroup']);
 
 
 
@@ -89,8 +94,6 @@ Route::middleware('auth:user')->group(function() {
     Route::post('/invitation/accept',[InvitationController::class, 'accepteEnAmis']); //accetpe une invitation en amis
     Route::get('/invitation/all-invitation-no',[InvitationController::class, 'getAllMyInvitation']); //tout les invitations que jai envoyer mais pas encore accepter
     Route::get('/invitation/all-invitation-yes',[InvitationController::class, 'getAllMyDemandeNoAccept']); //tout les invitation que je recois mes jai pas encore accepter
-    Route::post('/invitation/joinGroup',[InvitationController::class, 'joinGroup']); //rejoindre groupe
-    Route::post('/invitation/accepteJoinGroup',[InvitationController::class, 'accepteJoinGroup']); //rejoindre groupe
 
 
     // friends

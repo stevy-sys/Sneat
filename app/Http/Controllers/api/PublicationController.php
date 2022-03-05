@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
-use App\Models\Publication;
 use App\Models\User;
-use Illuminate\Http\Client\Request as ClientRequest;
+use App\Models\Group;
+use App\Models\Publication;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Client\Request as ClientRequest;
 
 class PublicationController extends Controller
 {
@@ -16,6 +17,27 @@ class PublicationController extends Controller
     public function __construct() {
 
         $this->auth = User::find(Auth::id());
+    }
+
+    public function publiezInGroup(Request $request)
+    {
+        $group = Group::find($request->id_group);
+        $publication = $group->publicable()->create([
+            'user_id' => Auth::id(),
+            'description' => $request->description
+        ]);
+        
+        if ($request->file) {
+            $media = $this->decodebase64($request->file);
+            $publication->media()->create([
+                'file' => $media['path'], 
+                'type' => $media['type'],
+            ]);
+        }
+        $publication->actualites()->create();
+        return response()->json([
+            'data' => $publication
+        ],201);
     }
 
     public function publierStatut (Request $request)
@@ -76,7 +98,6 @@ class PublicationController extends Controller
         $image = str_replace(' ', '+', $image);
         $imageName = uniqid() . '.' . $extension;
         $type = $this->detectType($extension);
-
         Storage::disk('publication')->put($imageName, base64_decode($image));
         return [
             'path' => $imageName ,

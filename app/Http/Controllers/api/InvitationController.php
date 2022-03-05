@@ -117,4 +117,16 @@ class InvitationController extends Controller
             return response()->json(['error' => $th->getMessage()]);
         }
     }
+
+    public function allDemandeGroup(Request $request)
+    {
+        try {
+            return response()->json([
+                'invitation' =>  Invitation::where('invitable_type','App\Models\Group')->where('status',0)->where('invitable_id',$request->id_group)->get()
+            ],201);
+           
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
+    }
 }
