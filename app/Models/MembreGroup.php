@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class MembreGroup extends Model
 {
     use HasFactory;
-
-    public function group()
-    {
-       return $this->belongsTo(Group::class);
-    }
+    protected $guarded = [];
+    // public function group()
+    // {
+    //    return $this->belongsTo(Group::class);
+    // }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 }

@@ -7,6 +7,8 @@ use App\Models\Friends;
 use App\Models\Invitation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Group;
+use App\Models\RoleUser;
 use Illuminate\Support\Facades\Auth;
 
 class InvitationController extends Controller
@@ -75,6 +77,41 @@ class InvitationController extends Controller
 
             return response()->json([
                 'invitation' => $invit
+            ],201);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
+    }
+
+    public function joinGroup(Request $request)
+    {
+        try {
+            $groupe = Group::find($request->id_group);
+            $invitations = $groupe->invitable()->create([
+                'invite' => Auth::id()
+            ]);
+            return response()->json([
+                'invitation' => $invitations
+            ],201);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
+    }
+
+    public function accepteJoinGroup(Request $request)
+    {
+        try {
+            $invitation = Invitation::find($request->id_invitation);
+            $invitation->update([
+                'status' => 1
+            ]);
+            $groupe = Group::find($request->id_group);
+            $groupe->membresGroupe()->create([
+                'user_id' => $invitation->invite,
+                'role_id' => RoleUser::where('type','membre')->first()->id
+            ]);
+            return response()->json([
+                'invitation' => $invitation
             ],201);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);

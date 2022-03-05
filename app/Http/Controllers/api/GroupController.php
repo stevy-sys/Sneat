@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\MembreGroup;
+use App\Models\RoleUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,9 +24,10 @@ class GroupController extends Controller
         $newGroup = $this->auth->groups()->create([
             'name' => $request->name
         ]);
-
+        
         $newGroup->membresGroupe()->create([
-            'user_id' => Auth::id()
+            'user_id' => $newGroup->user_id,
+            'role_id' => RoleUser::where('type','admin')->first()->id
         ]);
 
         return response()->json([
