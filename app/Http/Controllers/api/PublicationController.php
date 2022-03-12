@@ -7,6 +7,7 @@ use App\Models\Group;
 use App\Models\Publication;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Reaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Client\Request as ClientRequest;
@@ -88,6 +89,38 @@ class PublicationController extends Controller
         ],201);
     }
 
+    public function reactPublication(Request $request)
+    {
+        $publication = Publication::find($request->id_publication);
+        // dd($request->id_publication);
+        $reactExist = $publication->reactable()->where('user_id',Auth::id())->first();
+        if ($reactExist) {
+            if ($reactExist->reaction_id == $request->id_reaction) {
+                $publication->reactable()->where('user_id',Auth::id())->delete();
+            }else{
+                $publication->reactable()->where('user_id',Auth::id())->update([
+                    'reaction_id' => $request->id_reaction
+                ]);
+            }
+        }else{
+            $reactExist = $publication->reactable()->create([
+                'user_id' => Auth::id(),
+                'reaction_id' => $request->id_reaction,
+            ]);
+            return response()->json([
+                'data' => $reactExist
+            ],201);
+        }
+        return response()->json([
+            'data' => $reactExist
+        ],201);
+    }
+
+    public function getAllReaction()
+    {
+        return Reaction::all();
+    }
+    
     private function decodebase64($data)
     {
         $image_64 = $data; //your base64 encoded data

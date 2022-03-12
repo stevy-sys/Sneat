@@ -9,6 +9,20 @@ class Publication extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $appends = [
+        'countCommentaire',
+        'countReaction',
+    ];
+
+    public function getCountCommentaireAttribute()
+    {
+        return $this->commentaires()->count();;
+    }
+
+    public function getCountReactionAttribute()
+    {
+        return $this->reactable()->count();
+    }
 
     public function user()
     {
@@ -40,11 +54,8 @@ class Publication extends Model
         return $this->morphOne(Shares::class,'sharable');
     }
 
-    // public function getShare()
-    // {
-    //    if ($this->publicable_type == 'App\Models\Shares') {
-    //        return $this->publicable()->sharable();
-    //    }
-    //    return [];
-    // }
+    public function reactable()
+    {
+        return $this->morphMany(ReactAction::class,'reactable');
+    }
 }

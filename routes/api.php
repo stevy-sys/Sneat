@@ -86,7 +86,8 @@ Route::middleware('auth:user')->group(function() {
     Route::post('/commentaire/modifier',[CommentaireController::class, 'modifierCommentaire']);
 
     //reactions
-
+    Route::post('/react',[PublicationController::class, 'reactPublication']);
+    Route::get('/react',[PublicationController::class, 'getAllReaction']);
 
 
 
@@ -101,7 +102,7 @@ Route::middleware('auth:user')->group(function() {
     Route::get('/friends/all-amis',[FriendsController::class, 'getAllFriends']); //tout mes amis
     Route::post('/friends/retirer/{user_id}',[FriendsController::class, 'retirer']); //retirer amis
 
-
+    //share
     Route::post('/share/publication/myMur/{publication}',[ShareController::class, 'partageInMyMur']);
 });
 
