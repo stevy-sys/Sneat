@@ -24,6 +24,10 @@ class Group extends Model
     {
         return $this->morphMany(Invitation::class,'invitable');
     }
+    public function sharable()
+    {
+        return $this->morphOne(Shares::class,'sharable');
+    }
 
     public function publicable()
     {

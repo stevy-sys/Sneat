@@ -12,7 +12,7 @@ class Publication extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 
     public function media()
@@ -34,4 +34,17 @@ class Publication extends Model
     {
         return $this->morphTo();
     }
+
+    public function sharable()
+    {
+        return $this->morphOne(Shares::class,'sharable');
+    }
+
+    // public function getShare()
+    // {
+    //    if ($this->publicable_type == 'App\Models\Shares') {
+    //        return $this->publicable()->sharable();
+    //    }
+    //    return [];
+    // }
 }

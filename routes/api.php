@@ -13,6 +13,7 @@ use App\Http\Controllers\api\InvitationController;
 use App\Http\Controllers\admin\AdminAuthController;
 use App\Http\Controllers\api\CommentaireController;
 use App\Http\Controllers\api\PublicationController;
+use App\Http\Controllers\api\ShareController;
 use App\Models\Publication;
 
 /*
@@ -99,6 +100,9 @@ Route::middleware('auth:user')->group(function() {
     // friends
     Route::get('/friends/all-amis',[FriendsController::class, 'getAllFriends']); //tout mes amis
     Route::post('/friends/retirer/{user_id}',[FriendsController::class, 'retirer']); //retirer amis
+
+
+    Route::post('/share/publication/myMur/{publication}',[ShareController::class, 'partageInMyMur']);
 });
 
 Route::middleware('auth:admin')->group(function() {

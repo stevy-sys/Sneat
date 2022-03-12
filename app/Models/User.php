@@ -100,6 +100,10 @@ class User extends Authenticatable
     {
         return $this->morphMany(Media::class,'mediable');
     }
+    public function sharable()
+    {
+        return $this->morphOne(Shares::class,'sharable');
+    }
 
     public function getActiveProfilAttribute()
     {
