@@ -56,7 +56,7 @@ Route::middleware('auth:user')->group(function() {
 
     //chat
     Route::get('/chat/allConversation',[ChatController::class, 'allConversation']); //liste tout mes conversation
-    Route::get('/chat/allDiscussion/{id_conversation?}',[ChatController::class, 'allDiscussion']); //liste tout les message dans une conversation
+    Route::post('/chat/allDiscussion/{id_conversation?}',[ChatController::class, 'allDiscussion']); //liste tout les message dans une conversation
     Route::post('/chat/sendMessage',[ChatController::class, 'sendMessage']); //envoyer message
 
 
