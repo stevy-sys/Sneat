@@ -112,7 +112,6 @@ class ChatController extends Controller
     public function sendMessage(Request $request)
     {
         try {
-
             $id_conversation = $this->verification($request->id_user);
             if (!$id_conversation) {
                 $conversation = $this->createConversation($request);
