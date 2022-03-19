@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\NotifConversation;
 use App\Events\WebsocketDemo;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    broadcast( new WebsocketDemo('2'))->toOthers();
+    // broadcast( new NotifConversation('1'))->toOthers();
     return view('welcome');
 });
