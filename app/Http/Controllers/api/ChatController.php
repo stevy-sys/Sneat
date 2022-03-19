@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Events\NotifConversation;
 use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -115,6 +116,7 @@ class ChatController extends Controller
             $id_conversation = $this->verification($request->id_user);
             if (!$id_conversation) {
                 $conversation = $this->createConversation($request);
+                $id_conversation = $conversation->id ;
                 $this->createMembre($conversation->id,$request->id_user);
                 $message =  $this->auth->Messages()->create([
                     'conversation_id' => $conversation->id,
@@ -126,6 +128,8 @@ class ChatController extends Controller
                     'message' => $request->messages
                 ]);
             }
+
+            broadcast(new NotifConversation($id_conversation,$message))->toOthers();
 
             return response()->json([
                 'conversation' => $message
