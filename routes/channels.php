@@ -13,10 +13,17 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+    // dump('auth');
     return (int) $user->id === (int) $id;
 });
 
 Broadcast::channel('DemoChannel-{id}', function ($user, $id) {
+    // dump('channel');
+    
     // return (int) $user->id === (int) $id;
+    return true ;
+});
+
+Broadcast::channel('Conversation-{id_conversation}', function ($user, $id_conversation) {
     return true ;
 });
