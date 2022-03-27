@@ -9,17 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 class ShareController extends Controller
 {
-    public function partagePublicationInMyMur(Publication $publication,Request $request)
+    public function partageInMyMur(Publication $publication,Request $request)
     {
         $share = $publication->sharable()->create([
             'user_id' => Auth::id(),
         ]);
-        $share->publicable()->create([
+        $publicable = $share->publicable()->create([
             'description' => $request->description,
             'user_id' => Auth::id()
         ]);
 
-        $share->actualites()->create();
+        $publicable->actualites()->create();
         return response()->json([
             'data' => $publication
         ],201);
