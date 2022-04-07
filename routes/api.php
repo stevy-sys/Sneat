@@ -101,6 +101,7 @@ Route::middleware('auth:user')->group(function() {
     // friends
     Route::get('/friends/all-amis',[FriendsController::class, 'getAllFriends']); //tout mes amis
     Route::post('/friends/retirer/{user_id}',[FriendsController::class, 'retirer']); //retirer amis
+    Route::get('/friends/suggestion',[FriendsController::class, 'suggestionAMis']); //retirer amis
 
     //share
     Route::post('/share/publication/myMur/{publication}',[ShareController::class, 'partageInMyMur']);

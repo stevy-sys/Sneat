@@ -43,7 +43,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['activeProfil'];
+    protected $appends = ['activeProfil','isFriend'];
 
     public function Messages()
     {
@@ -58,6 +58,16 @@ class User extends Authenticatable
     public function groups()
     {
         return $this->hasMany(Group::class,'user_id');
+    }
+
+    public function groupMember()
+    {
+        return $this->hasMany(MembreGroup::class,'user_id');
+    }
+
+    public function MyGroupe()
+    {
+        return  MembreGroup::where('user_id',$this->id);
     }
 
 
@@ -79,6 +89,11 @@ class User extends Authenticatable
     public function membreConversations()
     {
         return $this->hasMany(MembreConversation::class,'user_id');
+    }
+
+    public function membreGroup()
+    {
+        return $this->belongsTo(MembreGroup::class);
     }
 
     public function publications()
@@ -109,4 +124,11 @@ class User extends Authenticatable
     {
         return $this->media()->where('active',true)->first();
     }
+
+    public function getIsFriendAttribute()
+    {
+       
+    }
+
+    
 }
