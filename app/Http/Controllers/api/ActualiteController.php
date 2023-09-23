@@ -33,7 +33,16 @@ class ActualiteController extends Controller
      *      tags={"Actualite"},
      *      summary="Obtenir la liste des actualités",
      *      description="Retourne la liste des publication ou partage de mes amis et publication dans des groupe ou je juis inscrit",
-     *      @OA\Response(
+     *      @OA\Parameter(
+     *          name="page",
+     *          in="query",
+     *          required=false,
+     *          description="pagination",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *         @OA\Response(
      *          response=200,
      *          description="Liste des actualités",
      *          @OA\JsonContent(
