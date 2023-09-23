@@ -59,7 +59,7 @@ Route::middleware('auth:user')->group(function() {
     Route::post('/chat/allDiscussion/{id_conversation?}',[ChatController::class, 'allDiscussion']); //liste tout les message dans une conversation
     Route::post('/chat/sendMessage',[ChatController::class, 'sendMessage']); //envoyer message
 
-
+    
 
     //publication statut
     Route::post('/publier/create',[PublicationController::class, 'publierStatut']); //publiez status

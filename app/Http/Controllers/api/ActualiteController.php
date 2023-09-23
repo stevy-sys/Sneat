@@ -27,15 +27,15 @@ class ActualiteController extends Controller
                     $query->whereIn('user_id', $amis_id);
                 });
             },
-        )
-            ->with([
+        )->with([
                 'actualable.user',
                 'actualable.publicable.sharable.user',
                 'actualable.publicable.sharable.media',
                 'actualable.publicable.sharable.commentaires.user',
                 'actualable.media',
                 'actualable.commentaires.user'
-            ])->get()->pluck('actualable');
+            ])->paginate(5);
+            
         return response()->json([
             'data' => $actualite
         ], 201);
