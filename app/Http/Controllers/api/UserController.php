@@ -18,6 +18,23 @@ class UserController extends Controller
         $this->auth = User::find(Auth::id());
     }
 
+
+    /**
+     * @OA\Get(
+     *      path="/api/user",
+     *      operationId="myProfile",
+     *      tags={"User"},
+     *      summary="Voir mon profile",
+     *      description="Voir mon profile",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Voir mon profile",
+     *          @OA\JsonContent(
+     *              type="object"
+     *          )
+     *      )
+     * )
+     */
     public function myProfile()
     {
         try {
@@ -64,6 +81,32 @@ class UserController extends Controller
         }
     }
 
+
+    /**
+     * @OA\Get(
+     *      path="/api/otherProfil/{user}",
+     *      operationId="otherProfil",
+     *      tags={"User"},
+     *      summary="Voir une profile d'un autre user",
+     *      description="Voir une profile d'un autre user",
+     *      @OA\Parameter(
+     *          name="user",
+     *          in="path",
+     *          required=true,
+     *          description="ID du user",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Voir une profile d'un autre user",
+     *          @OA\JsonContent(
+     *              type="object"
+     *          )
+     *      )
+     * )
+     */
     public function otherProfil(User $user)
     {
         $user = $user->load('profil.media');

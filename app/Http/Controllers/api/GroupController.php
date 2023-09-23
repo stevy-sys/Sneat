@@ -19,6 +19,34 @@ class GroupController extends Controller
     }
 
 
+    /**
+     * @OA\Post(
+     *      path="/api/group/create",
+     *      operationId="creategroupe",
+     *      tags={"Group"},
+     *      summary="Creation d'une groupe",
+     *      description="Creation d'une groupe ou je suis admin",
+     *      @OA\RequestBody(
+     *          description="Données de groupe a creer",
+     *          required=true,
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="name",
+     *                  type="string",
+     *                  example="nom de groupe"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Creation d'une groupe",
+     *          @OA\JsonContent(
+     *              type="object",
+     *          )
+     *      ),
+     * )
+    */
     public function creategroupe(Request $request)
     {
         $newGroup = $this->auth->groups()->create([
@@ -67,6 +95,22 @@ class GroupController extends Controller
         ],201);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/group",
+     *      operationId="groupe",
+     *      tags={"Group"},
+     *      summary="Mes groupes",
+     *      description="Mes groupe ou je suis membre",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Liste de mes groupes",
+     *          @OA\JsonContent(
+     *              type="object",
+     *          )
+     *      )
+     * )
+     */
     public function groupe()
     {
         $groupe = Group::whereHas('membresGroupe',function($q){

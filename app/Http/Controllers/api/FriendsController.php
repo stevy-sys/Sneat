@@ -12,6 +12,22 @@ use Illuminate\Support\Facades\Auth;
 
 class FriendsController extends Controller
 {
+    /**
+     * @OA\Get(
+     *      path="/api/friends/suggestion",
+     *      operationId="suggestionAMis",
+     *      tags={"Friends"},
+     *      summary="Recupere tout les suggestion d'amis",
+     *      description="Recupere tout les user suggerer , user meme groupe que moi et amis de mes amis",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Recupere tout les suggestion d'amis",
+     *          @OA\JsonContent(
+     *              type="object",
+     *          )
+     *      )
+     * )
+     */
     public function suggestionAMis()
     {
         $suggestion = [] ;
@@ -29,6 +45,22 @@ class FriendsController extends Controller
         // $suggestion = User::whereHas('');
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/friends/all-amis",
+     *      operationId="getAllFriends",
+     *      tags={"Friends"},
+     *      summary="Recupere tout les amis",
+     *      description="Recupere tout les amis que jai accepter",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Recupere tout les amis",
+     *          @OA\JsonContent(
+     *              type="object",
+     *          )
+     *      )
+     * )
+     */
     public function getAllFriends()
     {
         try {
@@ -41,6 +73,31 @@ class FriendsController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *      path="/api/friends/retirer/{user_id}",
+     *      operationId="retirer",
+     *      tags={"Friends"},
+     *      summary="Retirer une amis",
+     *      description="Retirer une amis dans ma liste d'amis",
+     *      @OA\Parameter(
+     *          name="user_id",
+     *          in="path",
+     *          required=true,
+     *          description="ID du user",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Retirer une amis",
+     *          @OA\JsonContent(
+     *              type="object",
+     *          )
+     *      ),
+     * )
+     */
     public function retirer($user_id)
     {
         try {

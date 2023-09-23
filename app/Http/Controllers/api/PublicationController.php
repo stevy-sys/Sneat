@@ -20,6 +20,45 @@ class PublicationController extends Controller
         $this->auth = User::find(Auth::id());
     }
 
+
+    /**
+     * @OA\Post(
+     *      path="/api/publiez/publiez",
+     *      operationId="publiezInGroup",
+     *      tags={"Publications"},
+     *      summary="Publier un statut dans un groupe",
+     *      description="Publiez dans le groupe pour que ca se voit aussi sur actu des amis ou non amis membre",
+     *      @OA\RequestBody(
+     *          description="Données du statut à publier",
+     *          required=true,
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="id_group",
+     *                  type="integer",
+     *                  example="bonjour tout le monde"
+     *              ),
+     *              @OA\Property(
+     *                  property="description",
+     *                  type="string",
+     *                  example="bonjour tout le monde"
+     *              ),
+     *              @OA\Property(
+     *                  property="file",
+     *                  type="string",
+     *                  example="base 64"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Statut publié avec succès",
+     *          @OA\JsonContent(
+     *              type="object",
+     *          )
+     *      )
+     * )
+     */
     public function publiezInGroup(Request $request)
     {
         $group = Group::find($request->id_group);
@@ -117,7 +156,6 @@ class PublicationController extends Controller
      *              type="object",
      *          )
      *      ),
-     *      security={}
      * )
      */
     public function supprimerStatut($id_publication)

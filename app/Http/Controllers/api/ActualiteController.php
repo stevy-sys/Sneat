@@ -32,7 +32,7 @@ class ActualiteController extends Controller
      *      operationId="getActualite",
      *      tags={"Actualite"},
      *      summary="Obtenir la liste des actualités",
-     *      description="Retourne la liste des actualités.",
+     *      description="Retourne la liste des publication ou partage de mes amis et publication dans des groupe ou je juis inscrit",
      *      @OA\Response(
      *          response=200,
      *          description="Liste des actualités",

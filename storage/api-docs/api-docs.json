@@ -20,11 +20,219 @@
                     "Actualite"
                 ],
                 "summary": "Obtenir la liste des actualités",
-                "description": "Retourne la liste des actualités.",
+                "description": "Retourne la liste des publication ou partage de mes amis et publication dans des groupe ou je juis inscrit",
                 "operationId": "getActualite",
                 "responses": {
                     "200": {
                         "description": "Liste des actualités",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Connexion utilisateur",
+                "description": "Retourne le donnee de user avec token authentification",
+                "operationId": "login",
+                "requestBody": {
+                    "description": "Données du utilisatuer à envoyer",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "JohnDoe@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "votre mot de passe"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User connecter",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "inscription de utilisateur",
+                "description": "Inscription de nouvel utilisateur",
+                "operationId": "register",
+                "requestBody": {
+                    "description": "Données du utilisatuer à envoyer",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "JohnDoe@gmail.com"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "JohnDoe"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "votre mot de passe"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion avec success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/friends/suggestion": {
+            "get": {
+                "tags": [
+                    "Friends"
+                ],
+                "summary": "Recupere tout les suggestion d'amis",
+                "description": "Recupere tout les user suggerer , user meme groupe que moi et amis de mes amis",
+                "operationId": "suggestionAMis",
+                "responses": {
+                    "200": {
+                        "description": "Recupere tout les suggestion d'amis",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/friends/all-amis": {
+            "get": {
+                "tags": [
+                    "Friends"
+                ],
+                "summary": "Recupere tout les amis",
+                "description": "Recupere tout les amis que jai accepter",
+                "operationId": "getAllFriends",
+                "responses": {
+                    "200": {
+                        "description": "Recupere tout les amis",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/friends/retirer/{user_id}": {
+            "post": {
+                "tags": [
+                    "Friends"
+                ],
+                "summary": "Retirer une amis",
+                "description": "Retirer une amis dans ma liste d'amis",
+                "operationId": "retirer",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID du user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retirer une amis",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/group/create": {
+            "post": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Creation d'une groupe",
+                "description": "Creation d'une groupe ou je suis admin",
+                "operationId": "creategroupe",
+                "requestBody": {
+                    "description": "Données de groupe a creer",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "nom de groupe"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Creation d'une groupe",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -58,6 +266,322 @@
                 "responses": {
                     "200": {
                         "description": "Liste des membres du groupe",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/group": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Mes groupes",
+                "description": "Mes groupe ou je suis membre",
+                "operationId": "groupe",
+                "responses": {
+                    "200": {
+                        "description": "Liste de mes groupes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/invitation/all-invitation-yes": {
+            "get": {
+                "tags": [
+                    "Invitations"
+                ],
+                "summary": "Mes invitation que je recois non lue",
+                "description": "tout les invitation que je recois mais jai pas encore accepter",
+                "operationId": "getAllMyDemandeNoAccept",
+                "responses": {
+                    "200": {
+                        "description": "Mes invitation que je recois non lue",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/invitation/all-invitation-no": {
+            "get": {
+                "tags": [
+                    "Invitations"
+                ],
+                "summary": "Invitation que jai envoyer pas de reponse",
+                "description": "tout les invitations que jai envoyer mais pas encore accepter",
+                "operationId": "getAllMyInvitation",
+                "responses": {
+                    "200": {
+                        "description": "Invitation que jai envoyer pas de reponse",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/invitation/accept": {
+            "post": {
+                "tags": [
+                    "Invitations"
+                ],
+                "summary": "accepte une demande d'amis qu on m'a envoyer",
+                "description": "Accepte une demande d'amis",
+                "operationId": "accepteEnAmis",
+                "requestBody": {
+                    "description": "ID de user a inviter",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_invitation": {
+                                        "type": "integer",
+                                        "example": "id de invitation"
+                                    },
+                                    "friend_id": {
+                                        "type": "integer",
+                                        "example": "id de user qui m'a inviter"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "accepte user en amis",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/invitation/invit-amis": {
+            "post": {
+                "tags": [
+                    "Invitations"
+                ],
+                "summary": "Envoyer une demande d'amis",
+                "description": "Envoyer une demande d'amis",
+                "operationId": "inviteUserEnAmis",
+                "requestBody": {
+                    "description": "ID de user a inviter",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_destinateur": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Invitation user en amis",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/invitation/joinGroup": {
+            "post": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Rejoindre une groupe",
+                "description": "Envoyer une invitation dans une groupe pour rejoindre ce groupe",
+                "operationId": "joinGroup",
+                "requestBody": {
+                    "description": "ID de groupe",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_group": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Rejoindre une groupe",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/invitation/accepteJoinGroup": {
+            "post": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Accepte un membre en groupe",
+                "description": "Accepter une invitation de rejoindre dans un groupe , action fait par admin",
+                "operationId": "accepteJoinGroup",
+                "requestBody": {
+                    "description": "ID de groupe",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_invitation": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "id_group": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Accepte un membre en groupe",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/invitation/all-demande-groupe": {
+            "post": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Tout les invitation en cours dans groupe",
+                "description": "Invitation pas encore accepter pour rejoindre le groupe",
+                "operationId": "allDemandeGroup",
+                "requestBody": {
+                    "description": "ID de groupe",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_group": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Invitation en cours",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/publiez/publiez": {
+            "post": {
+                "tags": [
+                    "Publications"
+                ],
+                "summary": "Publier un statut dans un groupe",
+                "description": "Publiez dans le groupe pour que ca se voit aussi sur actu des amis ou non amis membre",
+                "operationId": "publiezInGroup",
+                "requestBody": {
+                    "description": "Données du statut à publier",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_group": {
+                                        "type": "integer",
+                                        "example": "bonjour tout le monde"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "bonjour tout le monde"
+                                    },
+                                    "file": {
+                                        "type": "string",
+                                        "example": "base 64"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Statut publié avec succès",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -142,8 +666,112 @@
                             }
                         }
                     }
+                }
+            }
+        },
+        "/api/share/publication/myMur/{publication}": {
+            "post": {
+                "tags": [
+                    "Publications"
+                ],
+                "summary": "partager et publier un statut",
+                "description": "Publier un statut en partagant une statut d-un autre utilisateur.",
+                "operationId": "partageInMyMur",
+                "parameters": [
+                    {
+                        "name": "publication",
+                        "in": "path",
+                        "description": "ID du publication",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Données du statut à publier",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Un status de John Doe que je vient de partager"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
                 },
-                "security": []
+                "responses": {
+                    "200": {
+                        "description": "Statut publié avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Voir mon profile",
+                "description": "Voir mon profile",
+                "operationId": "myProfile",
+                "responses": {
+                    "200": {
+                        "description": "Voir mon profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/otherProfil/{user}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Voir une profile d'un autre user",
+                "description": "Voir une profile d'un autre user",
+                "operationId": "otherProfil",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID du user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Voir une profile d'un autre user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
@@ -151,7 +779,7 @@
         "securitySchemes": {
             "sanctum": {
                 "type": "apiKey",
-                "description": "Enter token in format (Bearer <token>)",
+                "description": "Enter token in format (Bearer votre_token)",
                 "name": "Authorization",
                 "in": "header"
             }

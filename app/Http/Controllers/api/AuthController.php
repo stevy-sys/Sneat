@@ -12,6 +12,40 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    /**
+     * @OA\Post(
+     *      path="/api/login",
+     *      operationId="login",
+     *      tags={"Authentication"},
+     *      summary="Connexion utilisateur",
+     *      description="Retourne le donnee de user avec token authentification",
+     *      @OA\RequestBody(
+     *          description="Données du utilisatuer à envoyer",
+     *          required=true,
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="email",
+     *                  type="string",
+     *                  example="JohnDoe@gmail.com"
+     *              ),
+     *              @OA\Property(
+     *                  property="password",
+     *                  type="string",
+     *                  example="votre mot de passe"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="User connecter",
+     *          @OA\JsonContent(
+     *              type="object",
+     *          )
+     *      ),
+     *      security={}
+     * )
+     */
     public function login(Request $request)
     {
         $validation = $this->validation($request,'login');
@@ -34,6 +68,45 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Post(
+     *      path="/api/register",
+     *      operationId="register",
+     *      tags={"Authentication"},
+     *      summary="inscription de utilisateur",
+     *      description="Inscription de nouvel utilisateur",
+     *      @OA\RequestBody(
+     *          description="Données du utilisatuer à envoyer",
+     *          required=true,
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="email",
+     *                  type="string",
+     *                  example="JohnDoe@gmail.com"
+     *              ),
+     *              @OA\Property(
+     *                  property="name",
+     *                  type="string",
+     *                  example="JohnDoe"
+     *              ),
+     *              @OA\Property(
+     *                  property="password",
+     *                  type="string",
+     *                  example="votre mot de passe"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Connexion avec success",
+     *          @OA\JsonContent(
+     *              type="object",
+     *          )
+     *      ),
+     *      security={}
+     * )
+     */
     public function register(Request $request)
     {
         $validation = $this->validation($request,'login');
