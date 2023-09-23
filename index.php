@@ -1,5 +1,5 @@
 <?php
-
+dd('ok');
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
