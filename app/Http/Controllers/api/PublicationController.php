@@ -41,6 +41,39 @@ class PublicationController extends Controller
         ],201);
     }
 
+    /**
+     * @OA\Post(
+     *      path="/api/publier/create",
+     *      operationId="publierStatut",
+     *      tags={"Publications"},
+     *      summary="Publier un statut",
+     *      description="Publier un statut en envoyant les données du statut dans le corps de la requête.",
+     *      @OA\RequestBody(
+     *          description="Données du statut à publier",
+     *          required=true,
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="description",
+     *                  type="string",
+     *                  example="bonjour tout le monde"
+     *              ),
+     *              @OA\Property(
+     *                  property="file",
+     *                  type="string",
+     *                  example="dqsfjkqsdfkljqhsfdkjhqsfkj"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Statut publié avec succès",
+     *          @OA\JsonContent(
+     *              type="object",
+     *          )
+     *      )
+     * )
+     */
     public function publierStatut (Request $request)
     {
         $publication = $this->auth->publicationStatus()->create([
@@ -61,7 +94,32 @@ class PublicationController extends Controller
             'data' => $publication
         ],201);
     }
-
+    /**
+     * @OA\Post(
+     *      path="/api/publier/delete/{id_publication}",
+     *      operationId="supprimerStatut",
+     *      tags={"Publications"},
+     *      summary="Suprimer une publication",
+     *      description="Suprimer une publication en envoyant le id_publication",
+     *      @OA\Parameter(
+     *          name="id_publication",
+     *          in="path",
+     *          required=true,
+     *          description="ID du publication",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Supression de publiction",
+     *          @OA\JsonContent(
+     *              type="object",
+     *          )
+     *      ),
+     *      security={}
+     * )
+     */
     public function supprimerStatut($id_publication)
     {
         Publication::find($id_publication)->delete();

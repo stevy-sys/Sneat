@@ -9,8 +9,39 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @OA\Info(
+ *     title="sneat",
+ *     version="1.0.0",
+ *     description="Description de votre API",
+ *     @OA\Contact(
+ *         email="contact@api.com",
+ *         name="Nom du contact"
+ *     ),
+ *     @OA\License(
+ *         name="Licence de l'API",
+ *         url="URL de la licence"
+ *     )
+ * )
+ */
 class ActualiteController extends Controller
 {
+    /**
+     * @OA\Get(
+     *      path="/api/actualite",
+     *      operationId="getActualite",
+     *      tags={"Actualite"},
+     *      summary="Obtenir la liste des actualités",
+     *      description="Retourne la liste des actualités.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Liste des actualités",
+     *          @OA\JsonContent(
+     *              type="object",
+     *          )
+     *      )
+     * )
+     */
     public function getActualite()
     {
         $amis_id = getTableauAmis();

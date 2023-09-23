@@ -35,6 +35,31 @@ class GroupController extends Controller
         ],201);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/group/membres/{group_id}",
+     *      operationId="getMembreGroup",
+     *      tags={"Group"},
+     *      summary="Obtenir les membres d'un groupe",
+     *      description="Retourne les membres d'un groupe en fonction de l'ID du groupe.",
+     *      @OA\Parameter(
+     *          name="group_id",
+     *          in="path",
+     *          required=true,
+     *          description="ID du groupe",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Liste des membres du groupe",
+     *          @OA\JsonContent(
+     *              type="object",
+     *          )
+     *      )
+     * )
+     */
     public function getMembreGroup($group_id)
     {
         return response()->json([

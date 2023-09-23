@@ -1,0 +1,168 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "sneat",
+        "description": "Description de votre API",
+        "contact": {
+            "name": "Nom du contact",
+            "email": "contact@api.com"
+        },
+        "license": {
+            "name": "Licence de l'API",
+            "url": "URL de la licence"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/actualite": {
+            "get": {
+                "tags": [
+                    "Actualite"
+                ],
+                "summary": "Obtenir la liste des actualités",
+                "description": "Retourne la liste des actualités.",
+                "operationId": "getActualite",
+                "responses": {
+                    "200": {
+                        "description": "Liste des actualités",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/group/membres/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Obtenir les membres d'un groupe",
+                "description": "Retourne les membres d'un groupe en fonction de l'ID du groupe.",
+                "operationId": "getMembreGroup",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "ID du groupe",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des membres du groupe",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/publier/create": {
+            "post": {
+                "tags": [
+                    "Publications"
+                ],
+                "summary": "Publier un statut",
+                "description": "Publier un statut en envoyant les données du statut dans le corps de la requête.",
+                "operationId": "publierStatut",
+                "requestBody": {
+                    "description": "Données du statut à publier",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "description": {
+                                        "type": "string",
+                                        "example": "bonjour tout le monde"
+                                    },
+                                    "file": {
+                                        "type": "string",
+                                        "example": "dqsfjkqsdfkljqhsfdkjhqsfkj"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Statut publié avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/publier/delete/{id_publication}": {
+            "post": {
+                "tags": [
+                    "Publications"
+                ],
+                "summary": "Suprimer une publication",
+                "description": "Suprimer une publication en envoyant le id_publication",
+                "operationId": "supprimerStatut",
+                "parameters": [
+                    {
+                        "name": "id_publication",
+                        "in": "path",
+                        "description": "ID du publication",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Supression de publiction",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "sanctum": [
+                "read",
+                "write"
+            ]
+        }
+    ]
+}
