@@ -2,17 +2,20 @@
 
 namespace App\Models;
 
+use App\Models\User as ModelUser;
+use App\Models\Friends;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Container\Container;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    public $amisCommun ;
     /**
      * The attributes that are mass assignable.
      *
@@ -47,48 +50,48 @@ class User extends Authenticatable
 
     public function Messages()
     {
-        return $this->hasMany(Message::class,'user_id');
+        return $this->hasMany(Message::class, 'user_id');
     }
 
     public function profil()
     {
-        return $this->hasOne(Profil::class,'user_id');
+        return $this->hasOne(Profil::class, 'user_id');
     }
 
     public function groups()
     {
-        return $this->hasMany(Group::class,'user_id');
+        return $this->hasMany(Group::class, 'user_id');
     }
 
     public function groupMember()
     {
-        return $this->hasMany(MembreGroup::class,'user_id');
+        return $this->hasMany(MembreGroup::class, 'user_id');
     }
 
     public function MyGroupe()
     {
-        return  MembreGroup::where('user_id',$this->id);
+        return  MembreGroup::where('user_id', $this->id);
     }
 
 
     public function myInvitation()
     {
-        $this->hasMany(Invitation::class,'inviteur');
+        $this->hasMany(Invitation::class, 'inviteur');
     }
 
     public function whoInvitMe()
     {
-        $this->hasMany(Invitation::class,'invite');
+        $this->hasMany(Invitation::class, 'invite');
     }
 
     public function invitations()
     {
-       return $this->morphMany(Invitation::class,'invitable');
+        return $this->morphMany(Invitation::class, 'invitable');
     }
 
     public function membreConversations()
     {
-        return $this->hasMany(MembreConversation::class,'user_id');
+        return $this->hasMany(MembreConversation::class, 'user_id');
     }
 
     public function membreGroup()
@@ -98,37 +101,35 @@ class User extends Authenticatable
 
     public function publications()
     {
-        return $this->hasMany(Publication::class,'user_id');
+        return $this->hasMany(Publication::class, 'user_id');
     }
 
     public function friends()
     {
-        return $this->hasMany(Friends::class,'friend_id');
+        return $this->hasMany(Friends::class, 'friend_id');
     }
 
     public function publicationStatus()
     {
-        return $this->morphMany(Publication::class,'publicable');
+        return $this->morphMany(Publication::class, 'publicable');
     }
 
     public function media()
     {
-        return $this->morphMany(Media::class,'mediable');
+        return $this->morphMany(Media::class, 'mediable');
     }
     public function sharable()
     {
-        return $this->morphOne(Shares::class,'sharable');
+        return $this->morphOne(Shares::class, 'sharable');
     }
 
     public function getActiveProfilAttribute()
     {
-        return $this->media()->where('active',true)->first();
+        return $this->media()->where('active', true)->first();
     }
 
     public function getIsFriendAttribute()
     {
-       
+        return true ;
     }
-
-    
 }

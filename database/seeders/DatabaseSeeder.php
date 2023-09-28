@@ -2,13 +2,16 @@
 
 namespace Database\Seeders;
 
+use Date;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Friends;
 use App\Models\RoleUser;
+use App\Models\Actualites;
 use App\Models\Invitation;
 use App\Models\MembreGroup;
 use App\Models\Publication;
+use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
@@ -139,6 +142,57 @@ class DatabaseSeeder extends Seeder
             //         'user_id'=>$invitation->invite
             //     ]);
             // }
-            
+
+        // $actualites = Actualites::all();
+        // foreach ($actualites as $actualite) {
+        //     $date = Carbon::now()->subDays(rand(1,365));
+        //     $publication = $actualite->actualable ;
+        //     $publication->update([
+        //         'created_at' => $date,
+        //         'updated_at' => $date
+        //     ]);
+        //     $actualite->update([
+        //         'created_at' => $date,
+        //         'updated_at' => $date
+        //     ]);
+        // }
+
+        // //media
+        // $publications = Publication::all();
+        // foreach ($publications as $publication) {
+        //     $rand = rand(1,0);
+        //     if ($rand == 1) {
+        //         $publication->media()->create([
+        //             'file' => 'https://picsum.photos/250/176',
+        //             'type' => 'image',
+        //             'active' => true
+        //         ]);
+        //     }
+        // }
+
+        // $users = User::all();
+        // foreach ($users as $user) {
+        //     $friends = Friends::with('user_friend')->where('user_id',$user->id)->get();
+        //     foreach ($friends as $friend) {
+        //         $user_friend = $friend->user_friend ;
+        //         $publications = $user_friend->publicationStatus ;
+        //         foreach ($publications as $publication) {
+        //             $rand = rand(1,3);
+        //             $faker = Faker::create();
+        //             if ($rand == 3) {
+        //                 $share = $publication->sharable()->create([
+        //                     'user_id' => $user->id,
+        //                 ]);
+
+        //                 $publicable = $share->publicable()->create([
+        //                     'description' => $faker->paragraph(rand(2,5)),
+        //                     'user_id' =>$user->id
+        //                 ]);
+                
+        //                 $publicable->actualites()->create();
+        //             }
+        //         }
+        //     }
+        // }
     }
 }

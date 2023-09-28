@@ -74,7 +74,7 @@ class ActualiteController extends Controller
                 'actualable.publicable.sharable.commentaires.user',
                 'actualable.media',
                 'actualable.commentaires.user'
-            ])->paginate(5);
+            ])->orderBy('created_at','desc')->paginate(5);
             
         return response()->json([
             'data' => $actualite

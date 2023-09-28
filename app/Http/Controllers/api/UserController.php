@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Models\User;
 use App\Models\Media;
+use App\Models\Friends;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +48,7 @@ class UserController extends Controller
         }
     }
 
-    
+
 
 
     public function completeProfile(Request $request)
@@ -109,9 +110,11 @@ class UserController extends Controller
      */
     public function otherProfil(User $user)
     {
+        //other user
         $user = $user->load('profil.media');
+        $user['amisCommun'] = getAmisCommun($user,Auth::user());
         return response()->json([
-            'user' => $user
+            'user' => $user,
         ], 201);
     }
 
@@ -128,11 +131,11 @@ class UserController extends Controller
 
         Storage::disk('profil')->put($imageName, base64_decode($image));
         return [
-            'path' => $imageName ,
+            'path' => $imageName,
             'type' => $type
         ];
     }
-    
+
 
     private function detectType($file)
     {

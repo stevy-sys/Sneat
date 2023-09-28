@@ -147,6 +147,17 @@
                 "summary": "Recupere tout les suggestion d'amis",
                 "description": "Recupere tout les user suggerer , user meme groupe que moi et amis de mes amis",
                 "operationId": "suggestionAMis",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Recupere tout les suggestion d'amis",
