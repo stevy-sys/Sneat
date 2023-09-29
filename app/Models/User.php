@@ -2,20 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\User as ModelUser;
-use App\Models\Friends;
 use Laravel\Passport\HasApiTokens;
-use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    public $amisCommun ;
     /**
      * The attributes that are mass assignable.
      *
@@ -26,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -46,7 +43,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['activeProfil','isFriend'];
+    protected $appends = ['activeProfil', 'isFriend'/*'amiCommun'*/];
 
     public function Messages()
     {
@@ -106,7 +103,7 @@ class User extends Authenticatable
 
     public function friends()
     {
-        return $this->hasMany(Friends::class, 'friend_id');
+        return $this->belongsToMany(User::class, 'friends_pivot', 'user_id', 'friend_id')->withTimestamps();
     }
 
     public function publicationStatus()
@@ -130,6 +127,27 @@ class User extends Authenticatable
 
     public function getIsFriendAttribute()
     {
-        return true ;
+        if ($this->id != Auth::id()) {
+            $exist = $this->friends()->where('friends_pivot.friend_id',Auth::id())->first();
+            if (isset($exist)) {
+                return true ;
+            }
+        }
+        return false;
+    }
+
+    public function amisCommuns()
+    {
+        return $this->belongsToMany(User::class, 'friends_pivot', 'user_id', 'friend_id')->withTimestamps();
+    }
+
+    public function scopeAmisCommun(Builder $query, $authUser)
+    {
+        return $query->whereHas('amisCommuns', function ($query) use ($authUser) {
+            $query->whereIn('friends_pivot.friend_id', $authUser->friends->pluck('id'));
+        })
+        ->with(['amisCommuns' => function ($query) use ($authUser) {
+            $query->whereIn('friends_pivot.friend_id', $authUser->friends->pluck('id'));
+        }]); // Limite les résultats à 5 utilisateurs;
     }
 }

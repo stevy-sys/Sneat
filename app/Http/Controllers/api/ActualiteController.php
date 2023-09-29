@@ -53,7 +53,7 @@ class ActualiteController extends Controller
      */
     public function getActualite()
     {
-        $amis_id = getTableauAmis();
+        $amis_id = Auth::user()->friends->pluck('id');
         $actualite = Actualites::whereHas(
             'actualable',
             function ($query) use ($amis_id) {

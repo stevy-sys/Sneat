@@ -108,11 +108,9 @@ class UserController extends Controller
      *      )
      * )
      */
-    public function otherProfil(User $user)
+    public function otherProfil($user)
     {
-        //other user
-        $user = $user->load('profil.media');
-        $user['amisCommun'] = getAmisCommun($user,Auth::user());
+        $user = User::with(['profil.media'])->find($user);
         return response()->json([
             'user' => $user,
         ], 201);

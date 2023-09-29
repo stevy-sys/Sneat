@@ -38,63 +38,25 @@ class FriendsController extends Controller
      *      )
      * )
      */
-    public function suggestionAMis()
+    public function suggestionAmis()
     {
 
-
-        // Obtenez l'ID de l'utilisateur connecté
-        $userId = Auth::user()->id;
-
-        // Obtenez la liste des amis de l'utilisateur actuel
-        $mesAmisIds = Friends::where('user_id', $userId)
-            ->orWhere('friend_id', $userId)
-            ->pluck('user_id', 'friend_id')
-            ->toArray();
-
-        // Ajoutez l'ID de l'utilisateur actuel à la liste
-        $mesAmisIds[$userId] = $userId;
-
-        // Retirez l'ID de l'utilisateur actuel s'il est présent dans la liste
-        if (isset($mesAmisIds[$userId])) {
-            unset($mesAmisIds[$userId]);
-        }
+        // Obtenez les amis de l'utilisateur actuel
+        $mesAmisIds = Auth::user()->friends->pluck('id');
 
         // Obtenez les amis de mes amis qui ne sont pas déjà mes amis
-        $amisDeMesAmisIds = Friends::whereIn('user_id', array_keys($mesAmisIds))
-            ->orWhereIn('friend_id', array_keys($mesAmisIds))
-            ->whereNotIn('user_id', $mesAmisIds)
-            ->whereNotIn('friend_id', $mesAmisIds)
-            ->pluck('user_id', 'friend_id')
-            ->toArray();
-
-        // Obtenez les membres des groupes auxquels l'utilisateur appartient mais qui ne sont pas ses amis
-        $groupMembersIds = MembreGroup::whereIn('group_id', function ($query) use ($userId) {
-            $query->select('group_id')
-                ->from('membre_groups')
-                ->where('user_id', $userId);
+        $amisDeMesAmisIds = User::whereHas('friends', function ($query) use ($mesAmisIds) {
+            $query->whereIn('friend_id', $mesAmisIds);
         })
-            ->whereNotIn('user_id', $mesAmisIds)
-            ->pluck('user_id')
+            ->whereNotIn('id', $mesAmisIds)
+            ->pluck('id')
             ->toArray();
-
-        // Obtenez la liste finale des utilisateurs suggérés
-        $userIdsSuggérés = array_merge(array_values($amisDeMesAmisIds), $groupMembersIds);
-        $userIdsSuggérés = array_unique($userIdsSuggérés);
 
         // Paginez les résultats avec 5 utilisateurs par page
-        $page = request('page', 1); // Obtenez le numéro de la page depuis la requête (par défaut 1)
-        $perPage = 5; // Nombre d'utilisateurs par page
-
-        // Obtenez les détails des utilisateurs suggérés avec amis en commun
-        $utilisateursSuggérés = User::whereIn('id', $userIdsSuggérés)
-            ->whereNotIn('id', array_keys($mesAmisIds))
-            ->inRandomOrder()
-            ->paginate($perPage, ['*'], 'page', $page);
-            foreach ($utilisateursSuggérés as $user) {
-                $user['amisCommun'] = getAmisCommun($user,Auth::user());
-            }
-
-        // Retournez les utilisateurs suggérés paginés au format JSON
+        $utilisateursSuggérés = User::whereIn('id', $amisDeMesAmisIds)
+            ->amisCommun(Auth::user())
+            ->where('id','<>',Auth::id())
+            ->paginate(5);
         return response()->json(['suggestions_amis' => $utilisateursSuggérés]);
     }
 
@@ -117,9 +79,8 @@ class FriendsController extends Controller
     public function getAllFriends()
     {
         try {
-            $user = Friends::with('user_friend')->where('user_id', Auth::id())->get();
             return response()->json([
-                'friends' => $user
+                'friends' => Auth::user()->friends
             ], 201);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);

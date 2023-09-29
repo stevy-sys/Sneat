@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Date;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Friends;
@@ -11,9 +12,9 @@ use App\Models\Actualites;
 use App\Models\Invitation;
 use App\Models\MembreGroup;
 use App\Models\Publication;
-use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,11 +25,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(150)->create();
+        // \App\Models\User::factory(50)->create();
 
         // $allUsers = User::all();
         // foreach ($allUsers as $user) {
-        //     $numberPub = rand(5,10);
+        //     $numberPub = rand(1,10);
         //     for ($i=0; $i < $numberPub; $i++) { 
         //         $faker = Faker::create();
         //         $publication = $user->publicationStatus()->create([
@@ -40,10 +41,10 @@ class DatabaseSeeder extends Seeder
         //     }
         // }
 
-        // $randomUser = User::inRandomOrder()->take(45)->get();
+        // $randomUser = User::inRandomOrder()->take(20)->get();
         // foreach ($randomUser as $user) {
         //     $newGroup = $user->groups()->create([
-        //         'name' =>  $faker->paragraph(1)
+        //         'name' =>  'groupe-'.$user->id
         //     ]);
             
         //     $newGroup->membresGroupe()->create([
@@ -54,10 +55,10 @@ class DatabaseSeeder extends Seeder
 
         // $allGroupe = Group::all();
         // foreach ($allGroupe as $groupe) {
-        //     $randomUser = User::inRandomOrder()->take(rand(1,140))->get();
+        //     $randomUser = User::inRandomOrder()->take(rand(1,50))->get();
         //     foreach ($randomUser as $user) {
         //         if ($groupe->user_id != $user->id) {
-        //             $exist = MembreGroup::where('user_id',$user->id)->first();
+        //             $exist = MembreGroup::where(['user_id' => $user->id , 'group_id' => $groupe->id ])->first();
         //             if (!isset($exist)) {
         //                 $invitations = $groupe->invitable()->create([
         //                     'invite' => $user->id
@@ -67,8 +68,8 @@ class DatabaseSeeder extends Seeder
         //     }
         // }
 
-        //accepte invitation groupe
-        // $invitations = Invitation::where('invitable_type','App\Models\Group')->inRandomOrder()->take(1000)->get();
+        // accepte invitation groupe
+        // $invitations = Invitation::where('invitable_type','App\Models\Group')->inRandomOrder()->take(25)->get();
         // foreach ($invitations as $invitation) {
         //     $invitation->update([
         //         'status' => 1
@@ -81,7 +82,7 @@ class DatabaseSeeder extends Seeder
         // }
 
 
-        //create publication dans un groupe
+        // //create publication dans un groupe
         // $membres = MembreGroup::inRandomOrder()->get();
         // foreach ($membres as $membre) {
         //     $faker = Faker::create();
@@ -115,7 +116,7 @@ class DatabaseSeeder extends Seeder
         //send invitaion amis
         // $allUser = User::all();
         // foreach ($allUser as $user) {
-        //     $others = User::where('id','<>',$user->id)->inRandomOrder()->take(rand(1,7))->get();
+        //     $others = User::where('id','<>',$user->id)->inRandomOrder()->take(rand(1,5))->get();
         //     foreach ($others as $other) {
         //         $exist1 = Invitation::where('invite',$other->id)->where('inviteur',$user->id)->where('invitable_type','App\Models\User')->first();
         //         $exist2 = Invitation::where('invite',$user->id)->where('inviteur',$other->id)->where('invitable_type','App\Models\User')->first();
@@ -130,17 +131,21 @@ class DatabaseSeeder extends Seeder
         // }
 
         //accepte invitaion amis
-            // $invitations = Invitation::where('invitable_type','App\Models\User')->inRandomOrder()->take(600)->get();
+            // $invitations = Invitation::where('invitable_type','App\Models\User')->inRandomOrder()->take(100)->get();
             // foreach ($invitations as $invitation) {
             //     $invitation->update(['status' => 1]);
-            //     Friends::create([
-            //         'friend_id'=>$invitation->invite,
-            //         'user_id' => $invitation->inviteur
+            //     DB::table('friends_pivot')->insert([
+            //         ['user_id' => $invitation->inviteur,'friend_id' => $invitation->invite],
+            //         ['user_id' => $invitation->invite,'friend_id' => $invitation->inviteur]
             //     ]);
-            //     Friends::create([
-            //         'friend_id'=>$invitation->inviteur,
-            //         'user_id'=>$invitation->invite
-            //     ]);
+            //     // Friends::create([
+            //     //     'friend_id'=>$invitation->invite,
+            //     //     'user_id' => $invitation->inviteur
+            //     // ]);
+            //     // Friends::create([
+            //     //     'friend_id'=>$invitation->inviteur,
+            //     //     'user_id'=>$invitation->invite
+            //     // ]);
             // }
 
         // $actualites = Actualites::all();
@@ -157,7 +162,7 @@ class DatabaseSeeder extends Seeder
         //     ]);
         // }
 
-        // //media
+        // // //media
         // $publications = Publication::all();
         // foreach ($publications as $publication) {
         //     $rand = rand(1,0);
@@ -170,29 +175,28 @@ class DatabaseSeeder extends Seeder
         //     }
         // }
 
-        // $users = User::all();
-        // foreach ($users as $user) {
-        //     $friends = Friends::with('user_friend')->where('user_id',$user->id)->get();
-        //     foreach ($friends as $friend) {
-        //         $user_friend = $friend->user_friend ;
-        //         $publications = $user_friend->publicationStatus ;
-        //         foreach ($publications as $publication) {
-        //             $rand = rand(1,3);
-        //             $faker = Faker::create();
-        //             if ($rand == 3) {
-        //                 $share = $publication->sharable()->create([
-        //                     'user_id' => $user->id,
-        //                 ]);
+        $users = User::all();
+        foreach ($users as $user) {
+            $friends = $user->friends;
+            foreach ($friends as $friend) {
+                $publications = $friend->publicationStatus ;
+                foreach ($publications as $publication) {
+                    $rand = rand(1,3);
+                    $faker = Faker::create();
+                    if ($rand == 3) {
+                        $share = $publication->sharable()->create([
+                            'user_id' => $user->id,
+                        ]);
 
-        //                 $publicable = $share->publicable()->create([
-        //                     'description' => $faker->paragraph(rand(2,5)),
-        //                     'user_id' =>$user->id
-        //                 ]);
+                        $publicable = $share->publicable()->create([
+                            'description' => $faker->paragraph(rand(2,5)),
+                            'user_id' =>$user->id
+                        ]);
                 
-        //                 $publicable->actualites()->create();
-        //             }
-        //         }
-        //     }
-        // }
+                        $publicable->actualites()->create();
+                    }
+                }
+            }
+        }
     }
 }
