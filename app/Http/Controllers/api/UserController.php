@@ -110,7 +110,10 @@ class UserController extends Controller
      */
     public function otherProfil($user)
     {
-        $user = User::with(['profil.media'])->find($user);
+        $user = User::with(['amisCommuns' => function ($query){
+            $query->whereIn('friends_pivot.friend_id', Auth::user()->friends->pluck('id'));
+        }])
+        ->with(['profil.media'])->whereId($user)->first();
         return response()->json([
             'user' => $user,
         ], 201);
