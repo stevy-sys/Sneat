@@ -52,6 +52,7 @@ Route::middleware('auth:user')->group(function() {
 
     // actualite
     Route::get('/actualite',[ActualiteController::class, 'getActualite']);
+    Route::get('/actualite/{user}',[ActualiteController::class, 'getActualityProfile']);
 
 
     //chat
