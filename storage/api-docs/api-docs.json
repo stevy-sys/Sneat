@@ -47,6 +47,48 @@
                 }
             }
         },
+        "/api/actualite/{user}": {
+            "get": {
+                "tags": [
+                    "Actualite"
+                ],
+                "summary": "Obtenir la liste des actualités d'un profile",
+                "description": "Retourne la liste des publication ou partage qu'un profile a deja fait",
+                "operationId": "getActualityProfile",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des actualités",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
