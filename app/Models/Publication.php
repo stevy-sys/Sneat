@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,11 +13,16 @@ class Publication extends Model
     protected $appends = [
         'countCommentaire',
         'countReaction',
+        'time'
     ];
 
+    public function getTimeAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
     public function getCountCommentaireAttribute()
     {
-        return $this->commentaires()->count();;
+        return $this->commentaires()->count();
     }
 
     public function getCountReactionAttribute()
