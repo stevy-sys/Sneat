@@ -143,10 +143,18 @@ class User extends Authenticatable
 
     public function scopeAmisCommun(Builder $query, $authUser)
     {
-        return $query->whereHas('amisCommuns', function ($query) use ($authUser) {
+        return $query
+        ->whereHas('amisCommuns', function ($query) use ($authUser) {
             $query->whereIn('friends_pivot.friend_id', $authUser->friends->pluck('id'));
         })
         ->with(['amisCommuns' => function ($query) use ($authUser) {
+            $query->whereIn('friends_pivot.friend_id', $authUser->friends->pluck('id'));
+        }]); // Limite les résultats à 5 utilisateurs;
+    }
+
+    public function scopeRandomCommunUser(Builder $query, $authUser)
+    {
+        return $query->with(['amisCommuns' => function ($query) use ($authUser) {
             $query->whereIn('friends_pivot.friend_id', $authUser->friends->pluck('id'));
         }]); // Limite les résultats à 5 utilisateurs;
     }
