@@ -40,9 +40,12 @@ class FriendsController extends Controller
      */
     public function suggestionAmis()
     {
-
         // Obtenez les amis de l'utilisateur actuel
         $mesAmisIds = Auth::user()->friends->pluck('id');
+        if ((count($mesAmisIds) == 0)) {
+            $user = User::randomCommunUser(Auth::user())->inRandomOrder()->paginate(5);
+            return response()->json(['data' => $user]);
+        }
 
         // Obtenez les amis de mes amis qui ne sont pas déjà mes amis
         $amisDeMesAmisIds = User::whereHas('friends', function ($query) use ($mesAmisIds) {
@@ -57,7 +60,7 @@ class FriendsController extends Controller
             ->amisCommun(Auth::user())
             ->where('id','<>',Auth::id())
             ->paginate(5);
-        return response()->json(['suggestions_amis' => $utilisateursSuggérés]);
+        return response()->json(['data' => $utilisateursSuggérés]);
     }
 
     /**
